@@ -170,12 +170,12 @@ namespace text
             List<int> FourNum = cardList.GroupBy(p => p % 100).Where(p => p.Count() >= 4).Select(p => p.Key).ToList();
             List<int> ThreeNum = cardList.GroupBy(p => p % 100).Where(p => p.Count() >= 3).Select(p => p.Key).ToList();
             List<int> TwoNum = cardList.GroupBy(p => p % 100).Where(p => p.Count() >= 2).Select(p => p.Key).ToList();
-            Console.WriteLine(string.Join(",", FourNum));
-            Console.ReadKey();
-            Console.WriteLine(string.Join(",", ThreeNum));
-            Console.ReadKey();
-            Console.WriteLine(string.Join(",", TwoNum));
-            Console.ReadKey();
+            // Console.WriteLine(string.Join(",", FourNum));
+            // Console.ReadKey();
+            // Console.WriteLine(string.Join(",", ThreeNum));
+            // Console.ReadKey();
+            // Console.WriteLine(string.Join(",", TwoNum));
+            // Console.ReadKey();
 
             #region 同花顺
             foreach (var item in cardList2)
@@ -189,9 +189,7 @@ namespace text
                 foreach (var item2 in cardList2)
                 {
                     if (item2 - 1 == tempList.Last())
-                    {
                         tempList.Add(item2);
-                    }
 
                     if (tempList.Count >= 5)
                     {
@@ -210,9 +208,7 @@ namespace text
                 foreach (var item in cardList)
                 {
                     if (item % 100 == FourItem)
-                    {
                         tempList.Add(item);
-                    }
 
                     if (tempList.Count >= 4)
                     {
@@ -232,9 +228,7 @@ namespace text
                 foreach (var item in cardList)
                 {
                     if (item % 100 == ThreeItem)
-                    {
                         tempList.Add(item);
-                    }
 
                     if (tempList.Count >= 3)
                     {
@@ -246,9 +240,7 @@ namespace text
                                 foreach (var AllItem in cardList)
                                 {
                                     if (AllItem % 100 != ThreeItem && AllItem % 100 == TwoItem)
-                                    {
                                         tempList.Add(AllItem);
-                                    }
 
                                     if (tempList.Count >= 5)
                                     {
@@ -258,16 +250,12 @@ namespace text
                                         break;
                                     }
                                 }
-
-
                             }
-
                         }
                         break;
                     }
                 }
             }
-
             #endregion
 
             #region 同花
@@ -317,9 +305,7 @@ namespace text
 
                 while (tempList.Count < 5)
                 {
-
                     bool flag = false;
-
                     foreach (var item in cardList)
                     {
                         if (item % 100 + 1 == tempList.Last() % 100)
@@ -351,9 +337,7 @@ namespace text
                 foreach (var item in cardList)
                 {
                     if (item % 100 == Threeitem)
-                    {
                         tempList.Add(item);
-                    }
 
                     if (tempList.Count >= 3)
                     {
@@ -538,8 +522,8 @@ namespace text
             }
 
 
-            //其他自动
-            if (cmlist.Count < 4)
+            //更改该值，可获取更多的组牌方式
+            if (cmlist.Count < 1)
             {
                 int SingleCount = 0;//乌龙次数
                 while (true)
@@ -668,9 +652,9 @@ namespace text
                 foreach (var item2 in item.typeCardList)
                 {
                     Console.WriteLine(item2.cardType);
-                    Console.ReadKey();
+                    // Console.ReadKey();
                     Console.WriteLine(string.Join(",", item2.cardList));
-                    Console.ReadKey();
+                    // Console.ReadKey();
                 }
                 Console.WriteLine("");
             }
