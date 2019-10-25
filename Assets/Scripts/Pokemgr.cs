@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
+using AI;
 
 public class Pokemgr : Singleton<Pokemgr>
 {
@@ -14,6 +15,7 @@ public class Pokemgr : Singleton<Pokemgr>
     //private Card[] Cards;
     public Transform pointstart;
 
+    List<CardModel> cardModels = new List<CardModel>();
     public Sprite[] pokes;
     public float interval = 0.77f;
     bool SeleUP = false;
@@ -21,6 +23,8 @@ public class Pokemgr : Singleton<Pokemgr>
     Dictionary<char, int> CardType=new Dictionary<char, int>();
     private List<List<Card>> cards = new List<List<Card>>();
 
+
+    List<int> CardListToAI = new List<int>();
     List<Card> DownCardList = new List<Card>();
     // Start is called before the first frame update
     void Start()
@@ -45,6 +49,7 @@ public class Pokemgr : Singleton<Pokemgr>
     }
     public void Init()
     {
+        CardListToAI.Clear();
         string strCards = "*K #2 $4 *3 &5 &10 *6 *J *7 *9 #Q &8 $A";
         strCards=strCards.Replace("*", "%");
         //strCards = strCards.Trim();
@@ -58,9 +63,9 @@ public class Pokemgr : Singleton<Pokemgr>
             Sprite sprite = Resources.Load<Sprite>("PokeCard/" + splitcard[i]);
             int cardType = CardType[splitcard[i][0]];
             int cardNum = Num[splitcard[i].Remove(0,1)];
-           
-            //初始化
-            DownCardList[i].InitCard(cardType, cardNum ,sprite);
+            CardListToAI.Add(cardType * 100 + cardNum);
+             //初始化
+             DownCardList[i].InitCard(cardType, cardNum ,sprite);
         }
         //排序，先按数字顺序排序
         DownCardList.Sort((x, y) => x.CardNum.CompareTo(y.CardNum) * 2 + x.CardType.CompareTo(y.CardType) );
@@ -69,12 +74,22 @@ public class Pokemgr : Singleton<Pokemgr>
             Vector3 posi = pointstart.position + new Vector3(i * interval, 0, 20 - i);
             DownCardList[i].InitNumIndex(posi, i);
         }
+        foreach (var item in CardListToAI)
+        {
+
+        }
         //排序，按花色顺序排序
         DownCardList.Sort((x, y) => x.CardNum.CompareTo(y.CardNum)  + x.CardType.CompareTo(y.CardType) * 2);
         for (int i = 0; i < DownCardList.Count; i++)
         {
             DownCardList[i].InitColorIndex(i, pointstart.position + new Vector3(i * interval, 0, 20 - i));
         }
+        AICards();
+    }
+    //AI组牌
+    public void  AICards()
+    {
+        cardModels=CaculalAI.GetAllResult(cardModels,CardListToAI);
     }
     public void SortChange(bool IsColor)
     {
