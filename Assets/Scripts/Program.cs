@@ -13,12 +13,10 @@ namespace AI
     public class CardModel
     {
         public List<TypeCard> typeCardList;
-
         public CardModel()
         {
             typeCardList = new List<TypeCard>();
         }
-
     }
 
     /// <summary>
@@ -114,43 +112,6 @@ namespace AI
             });
         }
 
-        /*
-        /// <summary>
-        /// 生成牌信息
-        /// </summary>
-        public static List<int> RuffleCard()
-        {
-            int[] idArr;
-            idArr = new int[] {
-                    102,103,104,105,106,107,108,109,110,111,112,113,114,
-                    202,203,204,205,206,207,208,209,210,211,212,213,214,
-                    302,303,304,305,306,307,308,309,310,311,312,313,314,
-                    402,403,404,405,406,407,408,409,410,411,412,413,414
-                    };
-            List<int> resCardIds = new List<int>();
-            List<int> cardIds = idArr.ToList<int>();
-            Random rand = new Random();
-            while (cardIds.Count > 0)
-            {
-                int randNum = rand.Next(cardIds.Count);
-                resCardIds.Add(cardIds[randNum]);
-                cardIds.RemoveAt(randNum);
-            }
-
-            return resCardIds;
-        }
-
-        /// <summary>
-        /// 获取一个玩家的手牌 13张
-        /// </summary>
-        /// <returns></returns>
-        public static List<int> GetOnePlayerCard()
-        {
-            // List<int> CardList = RuffleCard(true, 0);
-            List<int> CardList = RuffleCard();
-            return CardList.GetRange(0, 13);
-        }*/
-
         /// <summary>
         /// 计算一副牌里面的所有可能牌型
         /// </summary>
@@ -170,13 +131,6 @@ namespace AI
             List<int> FourNum = cardList.GroupBy(p => p % 100).Where(p => p.Count() >= 4).Select(p => p.Key).ToList();
             List<int> ThreeNum = cardList.GroupBy(p => p % 100).Where(p => p.Count() >= 3).Select(p => p.Key).ToList();
             List<int> TwoNum = cardList.GroupBy(p => p % 100).Where(p => p.Count() >= 2).Select(p => p.Key).ToList();
-            // Console.WriteLine(string.Join(",", FourNum));
-            // Console.ReadKey();
-            // Console.WriteLine(string.Join(",", ThreeNum));
-            // Console.ReadKey();
-            // Console.WriteLine(string.Join(",", TwoNum));
-            // Console.ReadKey();
-
             #region 同花顺
             foreach (var item in cardList2)
             {
@@ -420,7 +374,6 @@ namespace AI
 
             #endregion
 
-
             //乌龙-只拿三张牌
             if (true)
             {
@@ -435,10 +388,7 @@ namespace AI
                     TypeCard typeCard = new TypeCard() { cardList = tempList, cardType = DeckTypeEnum.Single };
                     typeCardList.Add(typeCard);
                 }
-
-
             }
-
             return typeCardList;
         }
 
@@ -627,34 +577,6 @@ namespace AI
             }
 
             return cmlist;
-        }
-
-        public static List<CardModel> GetAICard(List<int> cards)
-        {
-            List<CardModel> cmlist = new List<CardModel>();
-            List<int> CardList = cards;//13张手牌
-            //List<int> CardList = new List<int>() { 102,203,105,104,306,211,312,413,208,204,311,106,313 };//13张手牌
-            return GetAllResult(cmlist, CardList);
-
-            /*Console.WriteLine("玩家手牌信息为：");
-            SortCardMinToMax(CardList);
-            foreach (var item in CardList)
-            {
-                Console.WriteLine(item);
-            }*/
-
-            /*Console.WriteLine("自动计算的牌型信息：");
-            Console.WriteLine("");*/
-
-            foreach (var item in cmlist)
-            {
-                Console.WriteLine("按顺序输出：");
-                foreach (var item2 in item.typeCardList)
-                {
-                    Console.WriteLine(item2.cardType);
-                    Console.WriteLine(string.Join(",", item2.cardList));
-                }
-            }
         }
     }
 }

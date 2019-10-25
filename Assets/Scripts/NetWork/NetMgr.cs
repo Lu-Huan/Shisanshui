@@ -9,6 +9,10 @@ public class NetMgr : Singleton<NetMgr>
     static Dictionary<string, string> UrlTable = new Dictionary<string, string>();
     public static string TokenDate;
     public static string UserID;
+    //游戏ID
+    public static int GameID;
+    //获取的牌
+    public static string CardList;
     // Start is called before the first frame update
     void Start()
     {

@@ -43,7 +43,7 @@ public class Card : MonoBehaviour
             colorMode = value;
             DownPos = value ? ColorPos : InitPos;
             ToDown = state != Postype.BeUsed;
-            if (value)
+            if (colorMode)
             {
                 Sortpos = Index_Color;
             }
@@ -59,7 +59,7 @@ public class Card : MonoBehaviour
     }
 
     DunTpye DunTpye;
-    private int sortIndex=0;
+    private int sortIndex = 0;
     public int Sortpos
     {
         set
@@ -84,27 +84,23 @@ public class Card : MonoBehaviour
         mark.SetActive(false);
     }
     public void InitCard(int cardType, int Number, Sprite sprite)
-    {   
+    {
         num.sprite = sprite;
         CardType = cardType;
         CardNum = Number;
-       
+
     }
     public void InitNumIndex(Vector3 pos, int index)
     {
         InitPos = pos;
         Index_Num = index;
-        Sortpos = Index_Num;
         IsColorMode = false;
     }
-    public void InitColorIndex(int index,Vector3 colorPos)
+    public void InitColorIndex(int index, Vector3 colorPos)
     {
         Index_Color = index;
         ColorPos = colorPos;
-    }
-    public void ColorMode()
-    {
-        IsColorMode = true;
+       
     }
     public void BeSeleted()
     {
@@ -128,6 +124,13 @@ public class Card : MonoBehaviour
                  break;
          }*/
 
+    }
+    public void AISort(Vector3 Po)
+    {
+        TarPos = Po;
+        state = Postype.BeUsed;
+        mark.SetActive(false);
+        ToUp = true;
     }
     public void BeUsed(Vector3 pos, DunTpye dun)
     {

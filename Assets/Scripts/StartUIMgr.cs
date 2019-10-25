@@ -175,7 +175,7 @@ public class StartUIMgr : MonoBehaviour
                 {
                     Saver.WriteJsonString(result, Saver.MapDataPath);
                     string token = results["data"]["token"].ToString();
-                    Debug.Log(token);
+                    Debug.Log("token:"+token);
                     NetMgr.TokenDate=token;
                     NetMgr.UserID = results["data"]["user_id"].ToString();
                     GameManager.Instance.LoadScene(1);
