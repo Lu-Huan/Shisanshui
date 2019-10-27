@@ -22,6 +22,7 @@ public class ShowCard : MonoBehaviour
     {
         { DeckTypeEnum.Bomb,"炸弹"},
         { DeckTypeEnum.Double,"一对"},
+        { DeckTypeEnum.ContinuousTwoDouble,"连对"},
         { DeckTypeEnum.Gourd,"葫芦"},
         { DeckTypeEnum.ShunZi,"顺子"},
         { DeckTypeEnum.Single,"乌龙"},
@@ -32,7 +33,7 @@ public class ShowCard : MonoBehaviour
     };
     private Text ShowType;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         
         ShowType = transform.GetChild(0).GetComponent<Text>();

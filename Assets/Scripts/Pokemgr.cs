@@ -41,6 +41,8 @@ public class Pokemgr : Singleton<Pokemgr>
     private int AICardIndex = 0;
 
     List<Card> AllCardList = new List<Card>();
+
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -62,9 +64,21 @@ public class Pokemgr : Singleton<Pokemgr>
         //Debug.Log(Cards.Length);
         gameObject.SetActive(false);
     }
-    public void Init()
+    public void Clean()
     {
-        string strCards = NetMgr.CardList;
+        aICards.Clear();
+        AICardIndex = 0;
+        foreach (var item in cardsResult)
+        {
+            item.Clear();
+        }
+        cardModels.Clear();
+    }
+    public void Init(string strCards)
+    {
+        //Clean();
+         //strCards = NetMgr.CardList;
+       
         strCards = strCards.Replace("*", "%");
         //strCards = strCards.Trim();
         //Regex.Replace(strCards, "*", "t");
@@ -101,6 +115,11 @@ public class Pokemgr : Singleton<Pokemgr>
         {
             Vector3 posi = pointstart.position + new Vector3(i * interval, 0, 20 - i);
             AllCardList[i].InitNumIndex(posi, i);
+        }
+        if (GameUIMgr.Instance.AIScore)
+        {
+            GameUIMgr.Instance.AIButton.onClick.Invoke();
+            GameUIMgr.Instance.PushButton.onClick.Invoke();
         }
     }
     //AI组牌可以形成多种方式
@@ -180,6 +199,7 @@ public class Pokemgr : Singleton<Pokemgr>
         else
         {
             GameUIMgr.Instance.ShowMes("未完成分堆!!");
+            return "";
         }
         JsonData list = new JsonData
         {

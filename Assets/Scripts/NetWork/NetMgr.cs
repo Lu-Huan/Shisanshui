@@ -8,7 +8,10 @@ public class NetMgr : Singleton<NetMgr>
     static Dictionary<string, string> StateTable = new Dictionary<string, string>();
     static Dictionary<string, string> UrlTable = new Dictionary<string, string>();
     public static string TokenDate;
-    public static string UserID;
+    public static int UserID;
+    public static string UserName;
+    public string SetName;
+    public string SetPassWord;
     //游戏ID
     public static int GameID;
     //获取的牌
@@ -45,7 +48,7 @@ public class NetMgr : Singleton<NetMgr>
         UrlTable["Logout"] = "http://api.revth.com/auth/logout";
         UrlTable["StartGame"] = "http://api.revth.com/game/open";
         UrlTable["submit"] = "http://api.revth.com/game/submit";
-        UrlTable["rank"] = "http://api.revth.com//rank";
+        UrlTable["rank"] = "http://api.revth.com/rank";
         UrlTable["history"] = "http://api.revth.com/history";
     }
     // Update is called once per frame

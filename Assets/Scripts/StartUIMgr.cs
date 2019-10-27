@@ -24,6 +24,8 @@ public class StartUIMgr : MonoBehaviour
     void Start()
     {
         MesText = Mes.transform.GetChild(0).GetComponent<Text>();
+        reName.text = NetMgr.Instance.SetName;
+        rePassWord .text= NetMgr.Instance.SetPassWord;
         //toggle.onValueChanged.AddListener(ShowPassword);
     }
 
@@ -43,7 +45,7 @@ public class StartUIMgr : MonoBehaviour
         // MesText.text = Name + "\n" + PassWord;
 
         StartCoroutine(UserRigister(Name, PassWord));
-       
+
     }
     public void Enter()
     {
@@ -105,7 +107,7 @@ public class StartUIMgr : MonoBehaviour
             else
             {
                 JsonData results = JsonMapper.ToObject(result);
-                string state="";
+                string state = "";
                 try
                 {
                     state = results["status"].ToJson();
@@ -114,7 +116,7 @@ public class StartUIMgr : MonoBehaviour
                 {
                     ShowMes("连接失败");
                 }
-                if (state=="0")
+                if (state == "0")
                 {
                     ShowMes("绑定成功");
                 }
@@ -147,6 +149,7 @@ public class StartUIMgr : MonoBehaviour
         {
             uploadHandler = new UploadHandlerRaw(postBytes)
         };
+       // UnityWebRequest.useHttpContinue = false;
         webRequest.SetRequestHeader("Content-Type", "application/json;charset=utf-8");
         webRequest.downloadHandler = new DownloadHandlerBuffer();
         yield return webRequest.SendWebRequest();
@@ -169,15 +172,16 @@ public class StartUIMgr : MonoBehaviour
                 catch
                 {
                     ShowMes("连接失败");
-                  
+
                 }
                 if (state == "0")
                 {
                     Saver.WriteJsonString(result, Saver.MapDataPath);
                     string token = results["data"]["token"].ToString();
-                    Debug.Log("token:"+token);
-                    NetMgr.TokenDate=token;
-                    NetMgr.UserID = results["data"]["user_id"].ToString();
+                    Debug.Log("token:" + token);
+                    NetMgr.TokenDate = token;
+                    NetMgr.UserID = int.Parse(results["data"]["user_id"].ToString());
+                    NetMgr.UserName = username;
                     GameManager.Instance.LoadScene(1);
                 }
                 else

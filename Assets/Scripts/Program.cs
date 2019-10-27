@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace AI
 {
@@ -44,6 +45,10 @@ namespace AI
         /// 两对3
         /// </summary>
         TwoDouble,
+        /// <summary>
+        /// 连对
+        /// </summary>
+        ContinuousTwoDouble,
         /// <summary>
         /// 三张4
         /// </summary>
@@ -87,10 +92,6 @@ namespace AI
             cards.Sort((b, a) =>
             {
                 int result = (a % 100) - (b % 100);
-                // if (result == 0)
-                // {
-                //     result = (a / 100) - (b / 100);
-                // }
                 return result;
             });
         }
@@ -134,6 +135,7 @@ namespace AI
             #region 同花顺
             foreach (var item in cardList2)
             {
+                //同花顺最小是从10开始
                 if (item % 100 >= 11)
                     break;
 
@@ -217,6 +219,8 @@ namespace AI
             List<int> FourColor = cardList.GroupBy(p => p / 100).Where(p => p.Count() >= 4).Select(p => p.Key).ToList();
             List<int> ThreeColor = cardList.GroupBy(p => p / 100).Where(p => p.Count() >= 3).Select(p => p.Key).ToList();
 
+            List<TypeCard> typeCards = new List<TypeCard>();
+
             foreach (var Fiveitem in FiveColor)
             {
                 List<int> tempList = new List<int>();
@@ -227,13 +231,14 @@ namespace AI
                         tempList.Add(item);
                     }
                 }
-
+               
                 while (true)
                 {
                     if (tempList.Count >= 5)
                     {
                         TypeCard typeCard = new TypeCard() { cardList = tempList.GetRange(0, 5), cardType = DeckTypeEnum.TongHua };
-                        typeCardList.Add(typeCard);
+                        typeCards.Add(typeCard);
+                        //typeCardList.Add(typeCard);
                         tempList.RemoveAt(0);
                     }
                     else
@@ -242,6 +247,26 @@ namespace AI
                     }
                 }
             }
+            //收集同花集合后
+            //对同花进行排序
+            //
+            if (typeCards.Count > 1)
+            {
+                
+                //排序的优先级从高到低
+                typeCards.Sort((x, y) => -((x.cardList[0] % 100).CompareTo(y.cardList[0] % 100) * (1 << 4)
+                + (x.cardList[1] % 100).CompareTo(y.cardList[1] % 100) * (1 << 3)
+                 + (x.cardList[2] % 100).CompareTo(y.cardList[2] % 100) * (1 << 2)
+                  + (x.cardList[3] % 100).CompareTo(y.cardList[3] % 100) * (1 << 1)
+                  + (x.cardList[4] % 100).CompareTo(y.cardList[4] % 100)
+                ));
+                //typeCards.Sort((x, y) => -((x.cardList[1]%100).CompareTo(y.cardList[1]%100)));
+            }
+            foreach (var typeCard in typeCards)
+            {
+                typeCardList.Add(typeCard);
+            }
+
             #endregion
 
             #region 顺子
@@ -304,6 +329,10 @@ namespace AI
 
             #endregion
 
+            #region 连队
+
+            #endregion
+
             #region 两对
 
             for (int i = 0; i < TwoNum.Count; i++)
@@ -335,15 +364,20 @@ namespace AI
                         while ((tempList2.Count >= 2))
                         {
                             TypeCard typeCard = new TypeCard() { cardList = tempList.GetRange(0, 2), cardType = DeckTypeEnum.TwoDouble };
+
+                            //直接加入连对的判断
+                            if (tempList[0] % 100 - 1 == tempList2[0] % 100)
+                            {
+                                //连对
+                                typeCard.cardType = DeckTypeEnum.ContinuousTwoDouble;
+                            }
                             typeCard.cardList.AddRange(tempList2.GetRange(0, 2));
                             typeCardList.Add(typeCard);
                             tempList2.RemoveAt(0);
                         }
 
                     }
-
                     tempList.RemoveAt(0);
-
                 }
 
             }
@@ -389,6 +423,7 @@ namespace AI
                     typeCardList.Add(typeCard);
                 }
             }
+            typeCardList.Sort((x, y) => -x.cardType.CompareTo(y.cardType));
             return typeCardList;
         }
 
@@ -575,7 +610,6 @@ namespace AI
                 GetAllResult(cmlist, CardList);
 
             }
-
             return cmlist;
         }
     }
