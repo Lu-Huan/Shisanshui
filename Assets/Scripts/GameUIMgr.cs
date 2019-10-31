@@ -22,7 +22,6 @@ public class HitoryData
 }
 public class GameUIMgr : Singleton<GameUIMgr>
 {
-    public Button History;
     public InputField His_ID;
     public int Limit;
     public int page;
@@ -54,10 +53,11 @@ public class GameUIMgr : Singleton<GameUIMgr>
         MesText = Mes.transform.GetChild(0).GetComponent<Text>();
         UserMes.text = "ID:" + NetMgr.UserID + "\n" + NetMgr.UserName;
         SetUserScore();
-        History.onClick.AddListener(() =>
-        {
-            StartCoroutine(Log(int.Parse(His_ID.text), Limit, page));
-        });
+    }
+
+    public void GetHistory()
+    {
+        StartCoroutine(Log(int.Parse(His_ID.text), Limit, page));
     }
     public void SetAIScore(bool ai)
     {
