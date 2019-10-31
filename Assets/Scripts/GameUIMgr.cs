@@ -270,11 +270,9 @@ public class GameUIMgr : Singleton<GameUIMgr>
                     Debug.Log("成功获取牌");
                     NetMgr.GameID = (int)results["data"]["id"];
                     JsonData list = results["data"]["card"];
-                    //NetMgr.CardList = list[0].ToString() + list[1].ToString() + list[2].ToString();
                     NetMgr.CardList = list.ToString();
                     Debug.Log(NetMgr.GameID + "牌:" + NetMgr.CardList);
                     CardIsDone();
-                    //GameManager.Instance.LoadScene(1);
                 }
                 else
                 {
@@ -308,9 +306,6 @@ public class GameUIMgr : Singleton<GameUIMgr>
         if (webRequest.isDone)
         {
             string result = webRequest.downloadHandler.text;
-
-
-            // Debug.Log(result);
             if (result == "")
             {
                 ShowMes("网络连接失败");
@@ -357,10 +352,6 @@ public class GameUIMgr : Singleton<GameUIMgr>
             }
         }
     }
-
-
-
-
     IEnumerator PostRank(bool SetUI)
     {
         UnityWebRequest webRequest = new UnityWebRequest(NetMgr.GetUrl("rank"), "GET")

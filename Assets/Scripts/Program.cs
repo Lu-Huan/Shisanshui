@@ -2,9 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
 
 namespace AI
 {
@@ -19,7 +16,6 @@ namespace AI
             typeCardList = new List<TypeCard>();
         }
     }
-
     /// <summary>
     /// 牌型
     /// </summary>
@@ -329,10 +325,6 @@ namespace AI
 
             #endregion
 
-            #region 连队
-
-            #endregion
-
             #region 两对
 
             for (int i = 0; i < TwoNum.Count; i++)
@@ -548,7 +540,6 @@ namespace AI
                                     return cmlist;
                                 }
                             }
-
                             break;
                         }
 
