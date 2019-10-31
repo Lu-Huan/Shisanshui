@@ -24,4 +24,4 @@ unityBuild
 
 直接下载编译的EXE文件夹即可,在windows系统上可运行
 
-[exe下载地址]（https://share.weiyun.com/5aOXUdx）
+[exe下载地址](https://share.weiyun.com/5aOXUdx)
